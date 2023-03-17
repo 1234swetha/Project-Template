@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="task_template_action" model="ir.actions.act_window">
+            <field name="name">Task Template</field>
+            <field name="res_model">task.template</field>
+            <field name="view_mode">kanban,form</field>
+        </record>
+
+        <record id="task_template_view_form" model="ir.ui.view">
+            <field name="name">task.template.form</field>
+            <field name="model">task.template</field>
+            <field name="arch" type="xml">
+                <form string="Task Template">
+                    <header>
+                        <button name="create_task" string="Create Task" class="oe_highlight" type="object"/>
+                    </header>
+                    <sheet>
+                        <div name="button_box" position="inside">
+                            <button class="oe_stat_button" type="object" name="get_task"
+                                    icon="fa-sharp fa-solid fa-bars-progress">
+                                <field string="Task" name="task_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <field name="name"/>
+                        <group>
+                            <group>
+                                <field name="project_template_id"/>
+                                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            </group>
+                            <group>
+                                <field name="company_id"/>
+                                <field name="user_ids" widget="many2many_tags"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="Description">
+                                <field name="description"/>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="task_template_kanban" model="ir.ui.view">
+            <field name="name">task.template.kanban</field>
+            <field name="model">task.template</field>
+            <field name="arch" type="xml">
+                <kanban string="Task Template">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_kanban_content">
+                                    <div class="oe_kanban_project_list
+                                                  o_kanban_record_subtitle">
+                                        <h4>
+                                            <field name="name"/>
+                                        </h4>
+                                    </div>
+                                    <div>
+                                        <field name="tag_ids" options="{'color_field': 'color'}"/>
+                                        <field name="user_ids" widget="many2many_tags"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <menuitem parent="project_template.temp" name="Task Template"
+                  id="t_template" action="task_template_action"/>
+    </data>
+</odoo>

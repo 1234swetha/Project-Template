@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="project_template_action" model="ir.actions.act_window">
+            <field name="name">Project Template</field>
+            <field name="res_model">project.template</field>
+            <field name="view_mode">kanban,form</field>
+        </record>
+        <record id="project_template_view_form" model="ir.ui.view">
+            <field name="name">project.template.form</field>
+            <field name="model">project.template</field>
+            <field name="arch" type="xml">
+                <form string="Project Template">
+                    <header>
+                        <button name="create_project" string="Create Project" class="oe_highlight" type="object"/>
+                    </header>
+                    <sheet>
+                        <div name="button_box" position="inside">
+                            <button class="oe_stat_button" type="object" name="get_project"
+                                    icon="fa-solid fa-book">
+                                <field string="Project" name="project_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <field name="name"/>
+                        <group>
+                            <group>
+                                <field name="task_name"/>
+                                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                <field name="company_id"/>
+                            </group>
+                            <group>
+                                <field name="user_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="Description">
+                                <field name="description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="project_template_kanban" model="ir.ui.view">
+            <field name="name">project.template.kanban</field>
+            <field name="model">project.template</field>
+            <field name="arch" type="xml">
+                <kanban string="Project Template">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_kanban_content">
+                                    <div class="oe_kanban_project_list
+                                                  o_kanban_record_subtitle">
+                                        <h4>
+                                            <field name="name"/>
+                                        </h4>
+                                    </div>
+                                    <div>
+                                        <field name="tag_ids" options="{'color_field': 'color'}"/>
+                                    </div>
+                                    <div>
+                                        <field name="user_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <menuitem name="Templates" id="temp" parent="project.menu_main_pm">
+            <menuitem name="Project Template"
+                      id="proj_template" action="project_template_action"/>
+        </menuitem>
+    </data>
+</odoo>
